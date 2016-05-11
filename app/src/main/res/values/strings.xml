@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Food Finder</string>
+    <string name="facebook_app_id">1604836036507478</string>
+    <string name="firebase_url">https://luminous-inferno-4914.firebaseio.com</string>
+</resources>
