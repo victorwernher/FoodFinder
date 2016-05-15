@@ -1,0 +1,75 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="csci567.foodfinder.RestSlide">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/rest_image"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment"
+            android:id="@+id/tv_name"
+            android:layout_below="@+id/rest_image"
+            android:layout_centerHorizontal="true"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment"
+            android:id="@+id/tv_addr"
+            android:layout_below="@+id/tv_name"
+            android:layout_centerHorizontal="true"
+            android:textSize="25sp"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment"
+            android:id="@+id/tv_phone"
+            android:layout_below="@+id/tv_addr"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:textSize="25sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment"
+            android:id="@+id/tv_rating"
+            android:layout_below="@+id/tv_phone"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:gravity="center_horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_rating">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/like_button"
+                android:text="@string/like"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dislike_button"
+                android:text="@string/dislike"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</ScrollView>

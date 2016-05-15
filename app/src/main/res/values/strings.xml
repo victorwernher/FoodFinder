@@ -2,4 +2,7 @@
     <string name="app_name">Food Finder</string>
     <string name="facebook_app_id">1604836036507478</string>
     <string name="firebase_url">https://luminous-inferno-4914.firebaseio.com</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="like">Like</string>
+    <string name="dislike">dislike</string>
 </resources>

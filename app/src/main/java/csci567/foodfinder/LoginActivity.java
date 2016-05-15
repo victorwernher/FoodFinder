@@ -64,7 +64,7 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
      */
     @Override
     public void onFirebaseLoggedIn(AuthData authData) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LocationActivity.class);
         startActivityForResult(intent, 1);
     }
 
