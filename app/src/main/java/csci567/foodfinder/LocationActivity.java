@@ -133,6 +133,10 @@ public class LocationActivity extends AppCompatActivity implements
                         JSONObject location = geometry.getJSONObject("location");
 
                         String place_id = arrayItems.getString("place_id");
+                        /*
+                           TODO check if place_id is in dislikes
+                           If so don't add to Array List
+                         */
                         place_ids.add(place_id);
                     }
 
