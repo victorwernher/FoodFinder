@@ -8,7 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 
@@ -60,6 +63,10 @@ public class RestSlide extends Fragment {
         String s = rate + " out of 5";
 
         View view = inflater.inflate(R.layout.fragment_rest_slide, container, false);
+        OnSwipeTouchListener swiper = new OnSwipeTouchListener(getContext(), m_rest);
+        Button layout = (Button) view.findViewById(R.id.layout);
+        layout.setOnTouchListener(swiper);
+
         TextView name = (TextView) view.findViewById(R.id.tv_name);
         name.setText(m_rest.getName());
         TextView phone = (TextView) view.findViewById(R.id.tv_phone);

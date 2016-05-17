@@ -9,7 +9,8 @@ public class Restaurant {
     private String m_phone_num;
     private int m_rating;
     private String m_id;
-  //  private Bitmap m_image;
+    private String m_lat;
+    private String m_lng;
 
     public Restaurant(String name, String address)
     {
@@ -19,13 +20,16 @@ public class Restaurant {
         m_rating = 0;
     }
 
-    public Restaurant(String name, String address, String phone_num, int rating, String id)
+    public Restaurant(String name, String address, String phone_num, int rating, String id,
+                      String lat, String lng)
     {
         m_name = name;
         m_address = address;
         m_phone_num = phone_num;
         m_rating = rating;
         m_id = id;
+        m_lat = lat;
+        m_lng = lng;
     }
 
 //    public void setImage(Bitmap img)
@@ -55,5 +59,9 @@ public class Restaurant {
 
     public String getId(){ return m_id; };
 
-//    public Bitmap getImage() { return m_image; }
+    public String getLat(){ return m_lat; };
+
+    public String getLng(){ return m_lng; };
+
+
 }

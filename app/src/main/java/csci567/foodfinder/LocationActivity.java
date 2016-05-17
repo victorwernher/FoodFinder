@@ -60,6 +60,10 @@ public class LocationActivity extends AppCompatActivity implements
     private ArrayList<String> place_ids = new ArrayList<>();
     private ArrayList<Restaurant> rest_list = new ArrayList<>();
     private ArrayMap<String, Bitmap> images = new ArrayMap<>();
+    private int last_count =0;
+    private String failed_token;
+    private int fail_count = 0;
+    private static final int MAX_FAIL = 10;
 
 
     GoogleApiClient mGoogleApiClient;
@@ -112,11 +116,13 @@ public class LocationActivity extends AppCompatActivity implements
 
         protected void onPostExecute(String str) {;
             try {
+                fail_count = 0;
                 JSONObject root = new JSONObject(str);
                 JSONArray results = root.getJSONArray("results");
                 Log.d(TAG, "Status: " + root.getString("status"));
                 if(root.getString("status").equals("OK"))
                 {
+                    String next_token = root.getString("next_page_token");
                     //Log.d(TAG, "Error: " + root.getString("error_message"));
                     Log.d(TAG, "Length: " + Integer.toString(results.length()));
                     //Log.d(TAG, "Name 0: " + results.getJSONObject(0).getString("name"));
@@ -128,17 +134,31 @@ public class LocationActivity extends AppCompatActivity implements
 
                         String place_id = arrayItems.getString("place_id");
                         place_ids.add(place_id);
-                                            }
-                    for(int i = 0; i < place_ids.size(); i++)
+                    }
+
+                    for(int i = last_count; i < place_ids.size(); i++)
                     {
                         get_details(i);
                         get_images(i);
                     }
 
+                    last_count = place_ids.size();
+
+                    if(place_ids.size() < 25)
+                    {
+                        callAPI(next_token);
+                    }
+
+
+
+
+
 
                 }
                 else
                 {
+                    if(fail_count < MAX_FAIL)
+                        callAPI(failed_token);
                     Log.e(TAG, "HTTP status Error");
                 }
 
@@ -180,13 +200,22 @@ public class LocationActivity extends AppCompatActivity implements
 
     }
 
-    private void callAPI()
+    private void callAPI(String next_token)
     {
         if(m_location != null) {
             getLocation();
-            new readFromGooglePlaceAPI().execute("https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
-                    "location=" + m_location.getLatitude() + "," + m_location.getLongitude() + "&rankby=distance&sensor=true&" +
-                    "key=AIzaSyBcG7NTO3E5cJ6PznCxuLr17X-SRoWMwQo&types=food");
+            if(next_token.equals("")) {
+                new readFromGooglePlaceAPI().execute("https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
+                        "location=" + m_location.getLatitude() + "," + m_location.getLongitude() + "&rankby=distance&sensor=true&" +
+                        "key=AIzaSyBcG7NTO3E5cJ6PznCxuLr17X-SRoWMwQo&types=food");
+            }
+            else {
+                failed_token = next_token;
+
+                new readFromGooglePlaceAPI().execute("https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
+                        "location=" + m_location.getLatitude() + "," + m_location.getLongitude() + "&rankby=distance&sensor=true&" +
+                        "pagetoken=" + next_token + "&key=AIzaSyBcG7NTO3E5cJ6PznCxuLr17X-SRoWMwQo&types=food");
+            }
         }
         else
         {
@@ -227,12 +256,16 @@ public class LocationActivity extends AppCompatActivity implements
                         if (places.getStatus().isSuccess() && places.getCount() > 0) {
                                                         Place place = places.get(0);
                             String name = place.getName().toString();
+                            String lat = String.valueOf(place.getLatLng().latitude);
+                            String lng = String.valueOf(place.getLatLng().longitude);
                             String addr = place.getAddress().toString();
-                            String phone = place.getPhoneNumber().toString().substring(3);
+                            String phone = place.getPhoneNumber().toString();
+                            if(phone.length() != 0)
+                                phone = phone.substring(3);
                             int rating = Math.round(place.getRating()*10);
                             String id = place.getId();
 
-                            rest_list.add(new Restaurant(name,addr,phone,rating,id));
+                            rest_list.add(new Restaurant(name,addr,phone,rating,id, lat, lng));
                             m_pager_adapt.notifyDataSetChanged();
                         } else {
                             Log.e(TAG, "Place not found");
@@ -294,7 +327,7 @@ public class LocationActivity extends AppCompatActivity implements
         // Once connected with google api, get the location
 
         getLocation();
-        callAPI();
+        callAPI("");
         m_pager = (ViewPager) findViewById(R.id.pager);
         m_pager_adapt = new RestSlideAdapter(getSupportFragmentManager(), rest_list, images);
         m_pager.setAdapter(m_pager_adapt);
