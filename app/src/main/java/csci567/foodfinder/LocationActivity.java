@@ -20,6 +20,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -59,6 +63,7 @@ public class LocationActivity extends AppCompatActivity implements
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
     private ArrayList<String> place_ids = new ArrayList<>();
     private ArrayList<Restaurant> rest_list = new ArrayList<>();
+    private ArrayList<Restaurant> dislikes = new ArrayList<>();
     private ArrayMap<String, Bitmap> images = new ArrayMap<>();
     private int last_count =0;
     private String failed_token;
@@ -78,6 +83,19 @@ public class LocationActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         setContentView(R.layout.activity_location);
+
+        Firebase db_ref = LoginActivity.ref.child("account").child(LoginActivity.ref.getAuth().getUid());
+        db_ref.child("dislikes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    dislikes.add(postSnapshot.getValue(Restaurant.class));
+                }
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -105,7 +123,6 @@ public class LocationActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.rest_info:
                 Intent intent = new Intent(this, UserInfoActivity.class);
-                intent.putExtra("user_id", user_id);
                 startActivityForResult(intent, 1);
                 return true;
             default:
@@ -138,11 +155,9 @@ public class LocationActivity extends AppCompatActivity implements
                         JSONObject geometry = arrayItems.getJSONObject("geometry");
                         JSONObject location = geometry.getJSONObject("location");
                         String place_id = arrayItems.getString("place_id");
-                        /*
-                           TODO check if place_id is in dislikes
-                           If so don't add to Array List
-                         */
-                        place_ids.add(place_id);
+
+                        if(!contains(place_id))
+                            place_ids.add(place_id);
                     }
 
                     for(int i = last_count; i < place_ids.size(); i++)
@@ -301,6 +316,18 @@ public class LocationActivity extends AppCompatActivity implements
                 });
 
         }
+
+    private boolean contains(String id)
+    {
+        for(int i = 0; i < dislikes.size(); i++)
+        {
+            if(id.equals(dislikes.get(i).getM_id()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     @Override

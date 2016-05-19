@@ -13,8 +13,8 @@ import java.util.List;
 public class Database {
 
     private Firebase database_ref;
-    private List<Restaurant> likes;
-    private List<Restaurant> dislikes;
+    private ArrayList<Restaurant> likes;
+    private ArrayList<Restaurant> dislikes;
 
     public Database() {
         database_ref = LoginActivity.ref.child("account").child(LoginActivity.ref.getAuth().getUid());
@@ -27,7 +27,7 @@ public class Database {
     }
 
     public void add_dislike(Restaurant dislike) {
-        database_ref.child("likes").child(dislike.getM_id()).setValue(dislike);
+        database_ref.child("dislikes").child(dislike.getM_id()).setValue(dislike);
     }
 
     public void delete_like(String like_id) {
@@ -35,10 +35,10 @@ public class Database {
     }
 
     public void delete_dislike(String dislike_id) {
-        database_ref.child("likes").child(dislike_id).removeValue();
+        database_ref.child("dislikes").child(dislike_id).removeValue();
     }
 
-    public List<Restaurant> get_likes() {
+    public ArrayList<Restaurant> get_likes() {
         database_ref.child("likes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -52,12 +52,13 @@ public class Database {
         });
         return likes;
     }
-    public List<Restaurant> get_dislikes() {
+    public ArrayList<Restaurant> get_dislikes() {
         database_ref.child("dislikes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Restaurant dislike = postSnapshot.getValue(Restaurant.class);
+                    dislikes.add(dislike);
                 }
             }
             @Override
@@ -65,6 +66,11 @@ public class Database {
             }
         });
         return dislikes;
+    }
+
+    public ArrayList<Restaurant> get_filled_likes()
+    {
+        return likes;
     }
 
 }

@@ -21,11 +21,13 @@ import java.util.List;
 public class RestaurantDataAdapter extends BaseAdapter {
     List<Restaurant> data;
     Context mContext;
+    String m_type;
 
-    RestaurantDataAdapter(Context c, List<Restaurant> data)
+    RestaurantDataAdapter(Context c, List<Restaurant> data, String type)
     {
         mContext = c;
         this.data = new ArrayList<Restaurant>(data);
+        m_type = type;
     }
 
     public int getCount()
@@ -57,15 +59,25 @@ public class RestaurantDataAdapter extends BaseAdapter {
 
 
         Button remove = (Button) row.findViewById(R.id.remove_button);
-        remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                data.get(position).getM_id();
-                /*
-                TODO remove from Database
-                 */
-            }
-        });
+
+        if(m_type.equals("dislike"))
+        {
+            remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new Database().delete_dislike(data.get(position).getM_id());
+                }
+            });
+        }
+        else if(m_type.equals("like"))
+        {
+            remove.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View v) {
+                                              new Database().delete_like(data.get(position).getM_id());
+                                          }
+                                      });
+        }
 
 
         String name_str = "Name: " + data.get(position).getM_name();

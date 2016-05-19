@@ -31,16 +31,15 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
     public void onSwipeDown() {
         Log.i(TAG, "SWIPED DOWN");
-        /*
-           Add Dislike Restaurant in database
-         */
+
+        new Database().add_dislike(m_rest);
     }
 
     public void onSwipeUp() {
         Log.i(TAG, "SWIPED UP");
-        /*
-           Add Like Restaurant in database
-         */
+
+        new Database().add_like(m_rest);
+
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse("http://maps.google.com/maps?daddr=" +
                         m_rest.getM_lat() + "," + m_rest.getM_lng()));
