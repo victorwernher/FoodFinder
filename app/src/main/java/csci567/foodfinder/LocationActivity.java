@@ -1,6 +1,7 @@
 package csci567.foodfinder;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -15,6 +16,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -26,7 +30,6 @@ import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
 import com.google.android.gms.location.places.PlacePhotoMetadataResult;
 import com.google.android.gms.location.places.PlacePhotoResult;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.maps.GoogleMap;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -52,11 +55,8 @@ public class LocationActivity extends AppCompatActivity implements
         RestSlide.OnFragmentInteractionListener
 {
 
-    private GoogleMap mMap;
     public static final String TAG = "Location Activity: ";
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
-    private static final int REQUEST_PLACE_PICKER = 1;
-    private ArrayList<Restaurant> myArrayList = new ArrayList<>();
     private ArrayList<String> place_ids = new ArrayList<>();
     private ArrayList<Restaurant> rest_list = new ArrayList<>();
     private ArrayMap<String, Bitmap> images = new ArrayMap<>();
@@ -64,6 +64,7 @@ public class LocationActivity extends AppCompatActivity implements
     private String failed_token;
     private int fail_count = 0;
     private static final int MAX_FAIL = 10;
+    private int user_id;
 
 
     GoogleApiClient mGoogleApiClient;
@@ -72,23 +73,11 @@ public class LocationActivity extends AppCompatActivity implements
     private ViewPager m_pager;
     private PagerAdapter m_pager_adapt;
 
-
-//    @Bind(R.id.ViewName) TextView mViewName;
-//    @Bind(R.id.ViewAddress) TextView mViewAddress;
-//    @Bind(R.id.ViewAttributes) TextView mViewAttributions;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         setContentView(R.layout.activity_location);
-
-//        myArrayList = new ArrayList<>();
-//        m_pager = (ViewPager) findViewById(R.id.pager);
-//        m_pager_adapt = new RestSlideAdapter(getSupportFragmentManager(), myArrayList);
-//        m_pager.setAdapter(m_pager_adapt);
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -100,9 +89,30 @@ public class LocationActivity extends AppCompatActivity implements
                     .build();
         }
         mGoogleApiClient.connect();
-
-
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.location_activity_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.rest_info:
+                Intent intent = new Intent(this, UserInfoActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivityForResult(intent, 1);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onStart()
     {
@@ -123,15 +133,10 @@ public class LocationActivity extends AppCompatActivity implements
                 if(root.getString("status").equals("OK"))
                 {
                     String next_token = root.getString("next_page_token");
-                    //Log.d(TAG, "Error: " + root.getString("error_message"));
-                    Log.d(TAG, "Length: " + Integer.toString(results.length()));
-                    //Log.d(TAG, "Name 0: " + results.getJSONObject(0).getString("name"));
-                    Log.d(TAG, "Why isn't this running");
                     for (int i = 0; i < results.length(); i++) {
                         JSONObject arrayItems = results.getJSONObject(i);
                         JSONObject geometry = arrayItems.getJSONObject("geometry");
                         JSONObject location = geometry.getJSONObject("location");
-
                         String place_id = arrayItems.getString("place_id");
                         /*
                            TODO check if place_id is in dislikes
@@ -145,19 +150,11 @@ public class LocationActivity extends AppCompatActivity implements
                         get_details(i);
                         get_images(i);
                     }
-
                     last_count = place_ids.size();
-
                     if(place_ids.size() < 25)
                     {
                         callAPI(next_token);
                     }
-
-
-
-
-
-
                 }
                 else
                 {
@@ -169,10 +166,7 @@ public class LocationActivity extends AppCompatActivity implements
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
-            System.out
-                    .println("############################################################################");
-//            Log.d("After:", myArrayList.toString());
-            // adapter.notifyDataSetChanged();
+
         }
         public String readJSON(String URL) {
             StringBuilder sb = new StringBuilder();
@@ -201,7 +195,6 @@ public class LocationActivity extends AppCompatActivity implements
             }
             return sb.toString();
         }
-
     }
 
     private void callAPI(String next_token)
@@ -241,10 +234,11 @@ public class LocationActivity extends AppCompatActivity implements
             Location l = new Location("");
             l.setLatitude(39.7285);
             l.setLongitude(-121.8375);
-            //m_location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            m_location = l;
+            m_location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
             if(m_location == null)
             {
+                m_location = l;
                 Log.d(TAG, "Error getting location");
             }
         }
@@ -294,22 +288,12 @@ public class LocationActivity extends AppCompatActivity implements
                                             @Override
                                             public void onResult(@NonNull PlacePhotoResult placePhotoResult) {
                                                 if (!placePhotoResult.getStatus().isSuccess()) {
-//                                                    Bitmap icon = BitmapFactory.decodeResource(
-//                                                                    getBaseContext().getResources(),
-//                                                            R.drawable.img_placeholder);
-//                                                    images.put(id, icon);
-//                                                    m_pager_adapt.notifyDataSetChanged();
                                                     return;
                                                 }
                                                 images.put(id, placePhotoResult.getBitmap());
                                                 m_pager_adapt.notifyDataSetChanged();
                                             }
                                         });
-//                                Bitmap icon = BitmapFactory.decodeResource(
-//                                        getBaseContext().getResources(),
-//                                        R.drawable.img_placeholder);
-//                                images.put(id, icon);
-//                                m_pager_adapt.notifyDataSetChanged();
                             }
                             photoMetadataBuffer.release();
                         }
