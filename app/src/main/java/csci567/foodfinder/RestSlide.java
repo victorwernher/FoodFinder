@@ -59,7 +59,7 @@ public class RestSlide extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        int rate = m_rest.getRating();
+        int rate = m_rest.getM_rating();
         String s = rate + " out of 5";
 
         View view = inflater.inflate(R.layout.fragment_rest_slide, container, false);
@@ -68,16 +68,16 @@ public class RestSlide extends Fragment {
         layout.setOnTouchListener(swiper);
 
         TextView name = (TextView) view.findViewById(R.id.tv_name);
-        name.setText(m_rest.getName());
+        name.setText(m_rest.getM_name());
         TextView phone = (TextView) view.findViewById(R.id.tv_phone);
-        phone.setText(m_rest.getPhoneNum());
+        phone.setText(m_rest.getM_phone_num());
         TextView rating = (TextView) view.findViewById(R.id.tv_rating);
         if(rate > 0 )
             rating.setText(s);
         else
             rating.setText("");
         TextView addr = (TextView) view.findViewById(R.id.tv_addr);
-        addr.setText(m_rest.getAddress());
+        addr.setText(m_rest.getM_address());
         ImageView img = (ImageView) view.findViewById(R.id.rest_image);
         if(m_img != null)
 //            img.setImageResource(R.mipmap.ic_launcher);

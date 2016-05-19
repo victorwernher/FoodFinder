@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 /**
  * Created by bradley on 5/16/16.
  * modified from http://stackoverflow.com/questions/4139288/android-how-to-handle-right-to-left-swipe-gestures
@@ -41,7 +43,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
          */
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse("http://maps.google.com/maps?daddr=" +
-                        m_rest.getLat() + "," + m_rest.getLng()));
+                        m_rest.getM_lat() + "," + m_rest.getM_lng()));
         m_context.startActivity(intent);
 
     }

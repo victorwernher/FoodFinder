@@ -26,7 +26,7 @@ public class RestSlideAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         RestSlide frag = RestSlide.init();
-        String id = m_list.get(position).getId();
+        String id = m_list.get(position).getM_id();
         Restaurant rest = m_list.get(position);
         frag.setRest(rest);
         try {

@@ -60,7 +60,7 @@ public class RestaurantDataAdapter extends BaseAdapter {
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.get(position).getId();
+                data.get(position).getM_id();
                 /*
                 TODO remove from Database
                  */
@@ -68,9 +68,9 @@ public class RestaurantDataAdapter extends BaseAdapter {
         });
 
 
-        String name_str = "Name: " + data.get(position).getName();
-        String addr_str = "Address: " + data.get(position).getAddress();
-        String phone_str = "Phone: " + data.get(position).getPhoneNum();
+        String name_str = "Name: " + data.get(position).getM_name();
+        String addr_str = "Address: " + data.get(position).getM_address();
+        String phone_str = "Phone: " + data.get(position).getM_phone_num();
 
 
         name.setText(name_str);

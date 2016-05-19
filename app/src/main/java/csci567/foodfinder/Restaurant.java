@@ -12,6 +12,10 @@ public class Restaurant {
     private String m_lat;
     private String m_lng;
 
+
+    public Restaurant() {
+    }
+
     public Restaurant(String name, String address)
     {
         m_name = name;
@@ -20,16 +24,16 @@ public class Restaurant {
         m_rating = 0;
     }
 
-    public Restaurant(String name, String address, String phone_num, int rating, String id,
-                      String lat, String lng)
+    public Restaurant(String m_name, String m_address, String m_phone_num, int m_rating, String m_id,
+                      String m_lat, String m_lng)
     {
-        m_name = name;
-        m_address = address;
-        m_phone_num = phone_num;
-        m_rating = rating;
-        m_id = id;
-        m_lat = lat;
-        m_lng = lng;
+        this.m_name = m_name;
+        this.m_address = m_address;
+        this.m_phone_num = m_phone_num;
+        this.m_rating = m_rating;
+        this.m_id = m_id;
+        this.m_lat = m_lat;
+        this.m_lng = m_lng;
     }
 
 //    public void setImage(Bitmap img)
@@ -37,31 +41,31 @@ public class Restaurant {
 //        m_image = img;
 //    }
 
-    public String getName()
+    public String getM_name()
     {
         return m_name;
     }
 
-    public String getAddress()
+    public String getM_address()
     {
         return m_address;
     }
 
-    public String getPhoneNum()
+    public String getM_phone_num()
     {
         return m_phone_num;
     }
 
-    public int getRating()
+    public int getM_rating()
     {
         return m_rating;
     }
 
-    public String getId(){ return m_id; };
+    public String getM_id(){ return m_id; };
 
-    public String getLat(){ return m_lat; };
+    public String getM_lat(){ return m_lat; };
 
-    public String getLng(){ return m_lng; };
+    public String getM_lng(){ return m_lng; };
 
 
 }
