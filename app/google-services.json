@@ -1,33 +1,29 @@
 {
   "project_info": {
-    "project_number": "252393416395",
-    "project_id": "food-finder-debug"
+    "project_number": "179544553409",
+    "project_id": "food-finder-1273"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:252393416395:android:9b4149433072eda2",
+        "mobilesdk_app_id": "1:179544553409:android:9b4149433072eda2",
         "android_client_info": {
           "package_name": "csci567.foodfinder"
         }
       },
       "oauth_client": [
         {
-          "client_id": "252393416395-v6egmuoso3p9c97mvomns1gqrm6f6mqv.apps.googleusercontent.com",
+          "client_id": "179544553409-6tecj59lt6ucb88gdsqnmm819e4e2meq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "csci567.foodfinder",
-            "certificate_hash": "F2B14117C141E2CD3F9CBCF92D7EA6A4BD4A6F09"
+            "certificate_hash": "5D0C2FD3F041E2EEDCA4DE8762A1A6947758B04B"
           }
-        },
-        {
-          "client_id": "252393416395-197lf0p3a2q5rg416r0nv9ksfsseotun.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAUuY6NqYU444VktNpWwWr8QajznpU69PU"
+          "current_key": "AIzaSyD5ca-QrqdsyAR7BrUTT5D3DmK8ZPy6VPE"
         }
       ],
       "services": {

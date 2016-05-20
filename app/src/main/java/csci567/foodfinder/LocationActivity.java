@@ -125,6 +125,12 @@ public class LocationActivity extends AppCompatActivity implements
                 Intent intent = new Intent(this, UserInfoActivity.class);
                 startActivityForResult(intent, 1);
                 return true;
+            case R.id.logout_menu_item:
+                if(LoginActivity.ref.getAuth() != null) {
+                    LoginActivity.ref.unauth();
+                }
+                this.finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

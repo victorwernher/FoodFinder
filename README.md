@@ -17,3 +17,9 @@ Firebase UI. We are able to pull your current or last know location. If you Swip
 up it will begin navigation. Swipe down adds a dislike and prevents that item
 from showing up in the future. We also have a user info page that allows you to
 view your likes and dislikes and remove them as desired.
+
+Logging in: If you want to use our test accounts, username: csci567foodfinder@gmail.com 
+and password:#!FF22536 work for both logins. 
+
+Troubleshooting: There might be a problem on the initial login after it asks for permissions.
+If that happens and all that is shown to you is a white screen, then please log out and log back in.

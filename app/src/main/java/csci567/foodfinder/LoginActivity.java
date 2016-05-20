@@ -22,13 +22,15 @@ import csci567.foodfinder.auth.core.FirebaseLoginError;
  *
  * username for all logins(email, facebook, google): csci567foodfinder@gmail.com
  * password for all logins: #!FF22536
+ *
+ * FirebaseUI project was imported into this project. FirebaseArray, FirebaseListAdapter,
+ * FirebaseRecyclerAdapter, and the whole auth folder are from it.
  */
 public class LoginActivity extends FirebaseLoginBaseActivity {
 
     /*
      * For now leaving this public static
      */
-    public static User user;
     public static Firebase ref;
     public static final int MAIN_ACTIVITY_LOGOUT = 1;
 
@@ -37,7 +39,6 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
 
-        user = new User();
         ref = new Firebase(this.getString(R.string.firebase_url));
     }
 

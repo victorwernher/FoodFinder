@@ -10,6 +10,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Database class to easily allow interactions with firebase.
+ */
 public class Database {
 
     private Firebase database_ref;
