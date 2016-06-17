@@ -17,12 +17,6 @@ import csci567.foodfinder.auth.core.FirebaseLoginError;
 /*
  * This initial class handles the login and then launches the main activity.
  *
- * While you can log in from any gmail or facebook accounts, the following are the
- * test accounts I use.
- *
- * username for all logins(email, facebook, google): csci567foodfinder@gmail.com
- * password for all logins: #!FF22536
- *
  * FirebaseUI project was imported into this project. FirebaseArray, FirebaseListAdapter,
  * FirebaseRecyclerAdapter, and the whole auth folder are from it.
  */
