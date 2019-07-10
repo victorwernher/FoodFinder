@@ -1,4 +1,4 @@
-##Food Finder
+## Food Finder
 
 This application is designed to make it easier to decide where to get food.
 
